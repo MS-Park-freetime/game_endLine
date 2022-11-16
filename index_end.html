@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>끝말잇기</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    * {
+      font-family: "Pretendard", serif;
+    }
+
+    body {
+      background-color: rgb(209, 211, 245);
+    }
+
+    .end_title {
+      margin: 30px auto 0px auto;
+      border-radius: 10px;
+      border: 5px solid white;
+
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .word {
+      font-size: 30px;
+      color: rgb(19, 40, 224);
+      font-weight: bold;
+      margin-top: 30px;
+      margin-bottom: 30px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      border-bottom: 3px solid black;
+    }
+
+    .time_count {
+      color: red;
+      margin-bottom: 20px;
+      font-weight: bold;
+      font-size: 30px;
+
+      border-top: 5px solid rgb(169, 216, 235);
+      border-bottom: 5px solid rgb(169, 216, 235);
+      width: 100%;
+      text-align: center;
+
+    }
+
+    .input_text {
+      margin-bottom: 15px;
+      width: 200px;
+      padding: 10px 0px 10px 0px;
+      font-size: 15px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .end_btn {
+
+      width: 200px;
+
+      margin: 20px;
+      padding: 3px;
+      cursor: pointer;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    h1{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>끝말잇기 놀이</h1>
+  <div class="end_title" name="end_title">
+    <div class="word">단어</div>
+    <div class="time_count">시간</div>
+    <div><input type="text" id="input_button" class="input_text" onchange="updateWord(this.value)" /></div>
+    <div><input type="button" class="end_btn" value="입력" /></div>
+  </div>
+</body>
+
+<script>
+  const words = ["데이터", "디자인", "사진사", "이집트", "비행기", "마카롱"];
+  const index = Math.floor(Math.random() * 6);
+
+  let word = words[index];
+  let timeCount = 5;
+
+  const input_word = document.querySelector(".word");
+  const time = document.querySelector(".time_count");
+  const input_button = document.getElementById("input_button");
+
+  input_word.innerHTML = word;
+  time.innerHTML = timeCount;
+
+  const alarm = () => {
+    time.innerHTML = timeCount;
+    if (timeCount === 0) {
+      clearInterval(start);
+      alert("실패하셨습니다.");
+    } else {
+      timeCount -= 1;
+    }
+  };
+
+  const start = setInterval(alarm, 1000);
+  const updateWord = value => {
+    const prev = word[word.length - 1];
+    const first = value[0];
+    if (value.length === 3 && prev === first) {
+      word = value;
+      input_word.innerHTML = word;
+      timeCount = 5;
+      primaryInput();
+    } else {
+      warning();
+    }
+    input_button.value = '';
+  };
+
+  const defaultOutline = input_button.style.outline;
+
+  const warning = () => {
+    input_button.style.outline = "1px solid red";
+  };
+
+  const primaryInput = () => {
+    input_button.style.outline = defaultOutline;
+  };
+
+
+</script>
+
+</html>
